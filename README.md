@@ -67,7 +67,7 @@ npm install
 ts-node Menu.ts
 ```
 
-💡 O menu será exibido no terminal e você poderá interagir digitando as opções numéricas.
+> 💡 **O menu será exibido no terminal e você poderá interagir digitando as opções numéricas.**
 
 ---
 ## 🧠 Conceitos Aplicados
