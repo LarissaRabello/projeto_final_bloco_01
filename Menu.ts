@@ -1,11 +1,13 @@
-import readlinesync = require("readline-sync");
+import readlineSync from "readline-sync";
+import { ProdutoController } from "./src/controller/Controller";
+import { ProdutoGeek } from "./src/model/ProdutoGeek";
+
 
 export function main() {
-
+    const controller = new ProdutoController();
     let opcao: number;
 
     while (true) {
-
         console.log("*****************************************************");
         console.log("                                                     ");
         console.log("            🕯️    MUNDO INVERTIDO  👾               ");
@@ -23,45 +25,64 @@ export function main() {
         console.log("*****************************************************");
         console.log("                                                     ");
 
-        console.log("Entre com a opção desejada: ");
-        opcao = readlinesync.questionInt("");
-
-        if (opcao == 6) {
-            console.log("\nEncerrando a conexão com o Mundo Invertido...");
-            sobre();
-            process.exit(0);
-        }
+        opcao = readlineSync.questionInt("Entre com o poder desejado: ");
 
         switch (opcao) {
             case 1:
-        console.log("\n\n🧪 Cadastrar novo produto sobrenatural...\n\n");
-        break;
-            case 2:
-        console.log("\n\n📜 Listando todos os itens de Hawkins...\n\n");
-        break;
-            case 3:
-        console.log("\n\n🔍 Buscando produto misterioso por ID...\n\n");
-        break;
-            case 4:
-        console.log("\n\n⚙️ Atualizando produto do laboratório...\n\n");
-        break;
-            case 5:
-        console.log("\n\n🔥 Removendo produto do catálogo...\n\n");
-        break;
-            case 6:
-        console.log("\nEncerrando a conexão com o Mundo Invertido...");
-        sobre();
-        process.exit(0);
-    default:
-        console.log("\n⚠️ Opção inválida! O Demogorgon bagunçou o sistema!\n");
-        break;
-        }
-    }
+                console.log("\n🧪 Cadastrar novo produto sobrenatural...");
+                const nome = readlineSync.question("Nome do produto: ");
+                const preco = readlineSync.questionFloat("Preço do produto: R$ ");
+                const categoria = readlineSync.question("Categoria: ");
 
+                const novoProduto = new ProdutoGeek(0, nome, preco, categoria);
+                controller.cadastrar(novoProduto);
+                break;
+
+            case 2:
+                console.log("\n📜 Listando todos os itens de Hawkins...");
+                controller.listarTodos();
+                break;
+
+            case 3:
+                console.log("\n🔍 Buscar produto misterioso por ID...");
+                const idBusca = readlineSync.questionInt("Digite o ID do produto: ");
+                controller.procurarPorId(idBusca);
+                break;
+
+            case 4:
+                console.log("\n⚙️ Atualizar produto do laboratório...");
+                const idAtualizar = readlineSync.questionInt("ID do produto a atualizar: ");
+                const novoNome = readlineSync.question("Novo nome: ");
+                const novoPreco = readlineSync.questionFloat("Novo preço: R$ ");
+                const novaCategoria = readlineSync.question("Nova categoria: ");
+
+                const produtoAtualizado = new ProdutoGeek(idAtualizar, novoNome, novoPreco, novaCategoria);
+                controller.atualizar(produtoAtualizado);
+                break;
+
+            case 5:
+                console.log("\n🔥 Remover produto do catálogo...");
+                const idRemover = readlineSync.questionInt("Digite o ID do produto para remover: ");
+                controller.deletar(idRemover);
+                break;
+
+            case 6:
+                console.log("\nEncerrando a conexão com o Mundo Invertido...");
+                sobre();
+                process.exit(0);
+
+            default:
+                console.log("\n⚠️ Opção inválida! O Demogorgon bagunçou o sistema!\n");
+                break;
+        }
+
+        
+        readlineSync.question("\nPressione ENTER para voltar ao menu...");
+        console.clear();
+    }
 }
 
 /* Função com os dados da pessoa desenvolvedora */
-
 export function sobre(): void {
     console.log("\n*****************************************************");
     console.log("Projeto Desenvolvido por: Larissa Rabello da Silva");
